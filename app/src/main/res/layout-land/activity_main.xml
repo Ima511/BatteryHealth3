@@ -32,7 +32,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/BatteryHealth"
                     android:textColor="@color/BatteryFictionColor"
-                    android:textSize="40sp"
+                    android:textSize="20sp"
                     android:textStyle="bold|italic"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -46,80 +46,69 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/relColor"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-16dp">
-
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="411dp"
-
-            android:layout_height="5dp"
-            android:background="@color/BatteryFictionColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintVertical_bias="1.0">
 
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="82dp"
+            android:layout_height="72dp"
+
 
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
-            app:layout_constraintDimensionRatio="1:1"
+
             app:layout_constraintEnd_toEndOf="@+id/guideline4"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             tools:srcCompat="@tools:sample/avatars" />
 
+
         <TextView
             android:id="@+id/tv_BatteryHealth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageView"
-
-
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="30dp"
             android:text="@string/BatteryHealth"
             android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="16sp"
             android:textStyle="italic|bold"
             app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintHorizontal_bias="0.525"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tv_TimeLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/imageView"
+
             android:text="@string/TimeLeft"
             android:textColor="@color/white"
-
-            android:textSize="40sp"
+            android:textSize="16sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.49"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/view1"
-            app:layout_constraintVertical_bias="0.311" />
+            app:layout_constraintHorizontal_bias="0.479"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
 
         <View
 
             android:id="@+id/view4"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/tv_BatteryInfo"
 
             android:layout_marginTop="5dp"
@@ -135,7 +124,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/Availability"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_NominalValue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_NominalValue" />
@@ -144,11 +133,10 @@
             android:id="@+id/tv_NominalVolValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="3dp"
             android:text="@string/NominalVolValue"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/view4"
             app:layout_constraintEnd_toEndOf="@+id/tv_NominalValue"
             app:layout_constraintStart_toStartOf="@+id/tv_NominalValue"
@@ -158,12 +146,9 @@
             android:id="@+id/tv_Discharging"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:text="@string/Discharging"
             android:textColor="@color/BatteryFictionColor"
-            android:textSize="48sp"
-
-
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -174,12 +159,12 @@
             android:id="@+id/btnOptimizeBattery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+
             android:backgroundTint="@color/ToolBarBackgroundColor"
             android:text="@string/OptimizeBattery"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="36sp"
+            android:textSize="14sp"
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toTopOf="@+id/tv_Discharging"
             app:layout_constraintEnd_toEndOf="parent"
@@ -191,9 +176,9 @@
         <View
             android:id="@+id/view2"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/tv_BatteryHealth"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="1dp"
             android:background="@color/ToolBarBackgroundColor"
             app:layout_constraintBottom_toTopOf="@+id/btnOptimizeBattery"
             app:layout_constraintEnd_toEndOf="parent"
@@ -213,7 +198,7 @@
             android:layout_marginEnd="10dp"
             android:text="@string/Condition"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_NominalValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_NominalValue" />
@@ -230,10 +215,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:text="@string/NominalValue"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_NominalVolValue"
             app:layout_constraintEnd_toStartOf="@+id/tv_Condition"
             app:layout_constraintStart_toEndOf="@+id/tv_Availability"
@@ -246,7 +231,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/AvailabilityValue"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_NominalVolValue"
             app:layout_constraintEnd_toEndOf="@+id/tv_Availability"
             app:layout_constraintStart_toStartOf="@+id/tv_Availability"
@@ -260,7 +245,7 @@
 
             android:text="@string/ConditionValue"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_NominalVolValue"
             app:layout_constraintEnd_toEndOf="@+id/tv_Condition"
             app:layout_constraintStart_toStartOf="@+id/tv_Condition"
@@ -275,7 +260,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/Temperature"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -287,12 +272,12 @@
 
 
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:text="@string/Technology"
             android:textColor="@color/white"
 
 
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_TechnologyName"
             app:layout_constraintEnd_toStartOf="@+id/tv_CycleCount"
             app:layout_constraintStart_toEndOf="@+id/textView"
@@ -306,7 +291,7 @@
             android:layout_marginEnd="10dp"
             android:text="@string/CycleCount"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -317,7 +302,7 @@
             android:layout_height="wrap_content"
             android:text="28&#xb0;C/82.4&#xb0;F"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_TechnologyName"
             app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintStart_toStartOf="@+id/textView"
@@ -328,10 +313,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:text="@string/TechnologyName"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline5"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -344,7 +329,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/info"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="14sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="@+id/tv_BatteryInfo"
             app:layout_constraintStart_toStartOf="parent"
@@ -361,7 +346,6 @@
             android:text="@string/BatteryInformation"
 
             android:textColor="@color/white"
-            android:textSize="21sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toTopOf="@+id/view6"
             app:layout_constraintEnd_toEndOf="parent"
@@ -371,11 +355,9 @@
 
             android:id="@+id/view3"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/tv_BatteryInfo"
 
-
-            android:layout_marginTop="5dp"
             android:background="@color/ToolBarBackgroundColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -393,28 +375,28 @@
             android:layout_marginTop="8dp"
             android:text="@string/CycleCountValue"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_TechnologyName"
             app:layout_constraintEnd_toEndOf="@+id/tv_CycleCount"
+            app:layout_constraintHorizontal_bias="0.569"
             app:layout_constraintStart_toStartOf="@+id/tv_CycleCount"
-            app:layout_constraintTop_toTopOf="@+id/tv_TechnologyName" />
+            app:layout_constraintTop_toTopOf="@+id/tv_TechnologyName"
+            app:layout_constraintVertical_bias="1.0" />
 
         <View
 
             android:id="@+id/view6"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/tv_BatteryInfo"
-
-
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/ToolBarBackgroundColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_Discharging"
-            app:layout_constraintVertical_bias="0.143" />
+            app:layout_constraintVertical_bias="0.118" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline5"
@@ -451,30 +433,33 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.38" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="@color/BatteryFictionColor"
             app:itemIconSize="24dp"
             app:itemTextColor="@color/relColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/option"/>
+            app:layout_constraintTop_toTopOf="@+id/guideline5"
+            app:layout_constraintVertical_bias="1.0"
+            app:menu="@menu/option" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+
+            android:layout_height="5dp"
+            android:background="@color/BatteryFictionColor"
+
+
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/guideline6"
+             />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

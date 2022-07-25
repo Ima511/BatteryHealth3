@@ -132,6 +132,7 @@
             android:id="@+id/tv_Availability"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="@string/Availability"
             android:textColor="@color/white"
             android:textSize="17sp"
@@ -208,6 +209,7 @@
 
 
             android:layout_marginTop="6dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/Condition"
             android:textColor="@color/white"
             android:textSize="17sp"
@@ -269,6 +271,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
 
+            android:layout_marginStart="10dp"
             android:text="@string/Temperature"
             android:textColor="@color/white"
             android:textSize="17sp"
@@ -299,6 +302,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
             android:text="@string/CycleCount"
             android:textColor="@color/white"
             android:textSize="17sp"
@@ -335,6 +339,7 @@
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="@string/info"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -348,12 +353,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:autoSizePresetSizes="@res/values/array"
+            android:layout_marginEnd="10dp"
+
             android:autoSizeTextType="uniform"
-
             android:text="@string/BatteryInformation"
-            android:textColor="@color/white"
 
+            android:textColor="@color/white"
             android:textStyle="italic"
             app:layout_constraintBottom_toTopOf="@+id/view6"
             app:layout_constraintEnd_toEndOf="parent"
@@ -448,7 +453,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="@color/BatteryFictionColor"
             app:itemIconSize="24dp"
             app:itemTextColor="@color/relColor"
             app:layout_constraintBottom_toBottomOf="parent"
