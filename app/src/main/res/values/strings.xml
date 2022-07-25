@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BatteryHealth</string>
+    <string name="BatteryFiction">Battery Fiction</string>
+    <string name="BatteryHealth">Battery Health</string>
+    <string name="TimeLeft">Time Left</string>
+    <string name="OptimizeBattery">Optimize Battery</string>
+    <string name="Discharging">Discharging</string>
+    <string name="info">info</string>
+    <string name="BatteryInformation">Battery Information</string>
+    <string name="Temperature">Temperature</string>
+    <string name="Technology">Technology</string>
+    <string name="CycleCount">Cycle Count</string>
+    <string name="TechnologyName">Lithium Ion</string>
+    <string name="CycleCountValue">20</string>
+    <string name="NominalValue">Nominal Vol</string>
+    <string name="Availability">Availability</string>
+    <string name="Condition">Condition</string>
+    <string name="NominalVolValue">3.8Vdc</string>
+    <string name="AvailabilityValue">Present</string>
+    <string name="ConditionValue">Good</string>
+
+</resources>
