@@ -2,7 +2,7 @@
     <string name="app_name">BatteryHealth</string>
     <string name="BatteryFiction">Battery Fiction</string>
     <string name="BatteryHealth">Battery Health</string>
-    <string name="TimeLeft">Time Left</string>
+    <string name="TimeLeft">Battery Level</string>
     <string name="OptimizeBattery">Optimize Battery</string>
     <string name="Discharging">Discharging</string>
     <string name="info">info</string>
