@@ -179,24 +179,70 @@ public class MyReceiver extends BroadcastReceiver {
 
 
     private void getBatteryImage(Intent intent) {
-        if (intent.getIntExtra("level", 0) == 0) {
+
+        int charge = (int) intent.getIntExtra("level", 0);
+
+
+        if (charge == 0) {
+            imageView.setImageResource( R.drawable.batteryzero);
+
+        } else if (charge >0  && charge <20) {
             imageView.setImageResource( R.drawable.batteryone);
 
-        } else if (intent.getIntExtra("level", 0) >20) {
-            imageView.setImageResource( R.drawable.batteryone);
-
-        } else if (intent.getIntExtra("level", 0) > 40) {
+        } else if (charge > 20 && charge < 40) {
             imageView.setImageResource( R.drawable.batterytwo);
 
-        } else if (intent.getIntExtra("level", 0) > 60) {
+        } else if (charge > 40 && charge < 60) {
             imageView.setImageResource( R.drawable.batterythree);
 
-        }  else if (intent.getIntExtra("level", 0) > 80) {
+        }  else if (charge > 60 && charge < 80) {
             imageView.setImageResource(R.drawable.batteryfour);
-        }  else  {
+        } else if (charge > 80 && charge < 100){
 
             imageView.setImageResource(R.drawable.batteryfive);
+        }else{
+
         }
+
+//        int charge =(int) intent.getIntExtra("level", 0);
+//
+//        switch (charge){
+//            case 1 :
+//
+//                charge < 20
+//
+//
+//                break;
+//
+//            case 2:
+//
+//              break;
+//
+//            case 3:
+//
+//                break;
+//
+//                case 4:
+//
+//                break;
+//
+//                 case 5:
+//
+//                break;
+//
+//                case 6:
+//
+//                break;
+//
+//            default:
+//                imageView.setImageResource( R.drawable.batteryfive);
+//                break;
+//
+//        }
+
+
+
+
 
 
     }
