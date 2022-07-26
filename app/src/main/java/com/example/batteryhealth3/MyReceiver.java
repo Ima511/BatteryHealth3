@@ -5,9 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.BatteryManager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+
+import pl.droidsonroids.gif.GifImageView;
 
 
 public class MyReceiver extends BroadcastReceiver {
@@ -24,23 +29,25 @@ public class MyReceiver extends BroadcastReceiver {
             tv_cycleCountValue;
 
     ImageView imageView;
+    GifImageView gif;
 
     public MyReceiver() {
     }
-
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-        tv_TimeLeftValue = (TextView) ((Activity)context).findViewById(R.id.tv_TimeLeftValue);
-        tv_NominalVolValue = (TextView) ((Activity)context).findViewById(R.id.tv_NominalVolValue);
-        tv_ConditionValue = (TextView) ((Activity)context).findViewById(R.id.tv_ConditionValue);
-        tv_TechnologyName = (TextView) ((Activity)context).findViewById(R.id.tv_TechnologyName);
-        tv_tempValue = (TextView) ((Activity)context).findViewById(R.id.tv_tempValue);
-        tv_Discharging = (TextView) ((Activity)context).findViewById(R.id.tv_Discharging);
-        tv_ChargingSourceValue = (TextView) ((Activity)context).findViewById(R.id.tv_ChargingSourceValue);
+        tv_TimeLeftValue = (TextView) ((Activity) context).findViewById(R.id.tv_TimeLeftValue);
+        tv_NominalVolValue = (TextView) ((Activity) context).findViewById(R.id.tv_NominalVolValue);
+        tv_ConditionValue = (TextView) ((Activity) context).findViewById(R.id.tv_ConditionValue);
+        tv_TechnologyName = (TextView) ((Activity) context).findViewById(R.id.tv_TechnologyName);
+        tv_tempValue = (TextView) ((Activity) context).findViewById(R.id.tv_tempValue);
+        tv_Discharging = (TextView) ((Activity) context).findViewById(R.id.tv_Discharging);
+        tv_ChargingSourceValue = (TextView) ((Activity) context).findViewById(R.id.tv_ChargingSourceValue);
+        imageView = (ImageView) ((Activity) context).findViewById(R.id.imageView);
+        gif = (GifImageView) ((Activity) context).findViewById(R.id.gif);
 
 
 //        String actionString = intent.getAction();
@@ -65,12 +72,12 @@ public class MyReceiver extends BroadcastReceiver {
 //            Toast.makeText(context, "Battery is not charging ", Toast.LENGTH_SHORT).show();
 //        }
 
-        if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())){
+        if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
 //             Battery Level
-            tv_TimeLeftValue.setText(String.valueOf(intent.getIntExtra("level",0)) + "%");
+            tv_TimeLeftValue.setText(String.valueOf(intent.getIntExtra("level", 0)) + "%");
 
 //             Battery Voltage
-            float voltTemp = (float) (intent.getIntExtra("voltage" , 0) * 0.001);
+            float voltTemp = (float) (intent.getIntExtra("voltage", 0) * 0.001);
             tv_NominalVolValue.setText(voltTemp + "V");
             // Battery Condition Function
             setCondition(intent);
@@ -79,8 +86,8 @@ public class MyReceiver extends BroadcastReceiver {
             tv_TechnologyName.setText(intent.getStringExtra("technology"));
 
             // Battery Temperature
-            float tempFloat = (float) intent.getIntExtra("temperature",-1)/10;
-            tv_tempValue.setText(tempFloat + "\u2103" );
+            float tempFloat = (float) intent.getIntExtra("temperature", -1) / 10;
+            tv_tempValue.setText(tempFloat + "\u2103");
 
             // Charging Status Function
             setChargingStatus(intent);
@@ -99,9 +106,9 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     private void getChargingSource(Intent intent) {
-        int sourceTemp = intent.getIntExtra("plugged",-1);
+        int sourceTemp = intent.getIntExtra("plugged", -1);
 
-        switch (sourceTemp){
+        switch (sourceTemp) {
             case BatteryManager.BATTERY_PLUGGED_AC:
                 tv_ChargingSourceValue.setText("AC");
                 break;
@@ -124,41 +131,81 @@ public class MyReceiver extends BroadcastReceiver {
     private void setChargingStatus(Intent intent) {
         int statusTemp = intent.getIntExtra("status", -1);
 
-        switch ((statusTemp)){
+        switch ((statusTemp)) {
             case BatteryManager.BATTERY_STATUS_UNKNOWN:
                 tv_Discharging.setText("Unknown");
+                imageView.setVisibility(View.GONE);
+                gif.setVisibility(View.GONE);
                 break;
 
             case BatteryManager.BATTERY_STATUS_CHARGING:
                 tv_Discharging.setText("Charging");
+                imageView.setVisibility(View.GONE);
+                gif.setVisibility(View.VISIBLE);
                 break;
 
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
                 tv_Discharging.setText("Discharging");
+                imageView.setVisibility(View.VISIBLE);
+                gif.setVisibility(View.GONE);
+                getBatteryImage(intent);
                 break;
 
             case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
                 tv_Discharging.setText("Not Charging");
+                imageView.setVisibility(View.VISIBLE);
+                gif.setVisibility(View.GONE);
+                getBatteryImage(intent);
                 break;
 
 
             case BatteryManager.BATTERY_STATUS_FULL:
                 tv_Discharging.setText("Battery Full");
+                imageView.setVisibility(View.VISIBLE);
+                gif.setVisibility(View.GONE);
+                getBatteryImage(intent);
                 break;
 
 
             default:
                 tv_Discharging.setText("Null");
+                imageView.setVisibility(View.VISIBLE);
+                gif.setVisibility(View.GONE);
+                getBatteryImage(intent);
                 break;
 
         }
     }
 
 
-    private void setCondition(Intent intent) {
-        int val = intent.getIntExtra("health",0);
+    private void getBatteryImage(Intent intent) {
+        if (intent.getIntExtra("level", 0) == 0) {
+            imageView.setImageResource( R.drawable.batteryone);
 
-        switch (val){
+        } else if (intent.getIntExtra("level", 0) >20) {
+            imageView.setImageResource( R.drawable.batteryone);
+
+        } else if (intent.getIntExtra("level", 0) > 40) {
+            imageView.setImageResource( R.drawable.batterytwo);
+
+        } else if (intent.getIntExtra("level", 0) > 60) {
+            imageView.setImageResource( R.drawable.batterythree);
+
+        }  else if (intent.getIntExtra("level", 0) > 80) {
+            imageView.setImageResource(R.drawable.batteryfour);
+        }  else  {
+
+            imageView.setImageResource(R.drawable.batteryfive);
+        }
+
+
+    }
+
+
+    private void setCondition(Intent intent) {
+        int val = intent.getIntExtra("health", 0);
+
+        switch (val) {
             case BatteryManager.BATTERY_HEALTH_UNKNOWN:
                 tv_ConditionValue.setText("UNKNOWN");
                 break;
