@@ -5,12 +5,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.nio.channels.InterruptedByTimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tv_TimeLeftValue = (TextView) findViewById(R.id.tv_TimeLeftValue);
-        tv_AvailabilityValue = (TextView) findViewById(R.id.tv_AvailabilityValue);
+        tv_AvailabilityValue = (TextView) findViewById(R.id.tv_ChargingSourceValue);
         tv_NominalVolValue = (TextView) findViewById(R.id.tv_NominalVolValue);
         tv_ConditionValue = (TextView) findViewById(R.id.tv_ConditionValue);
         tv_tempValue = (TextView) findViewById(R.id.tv_tempValue);

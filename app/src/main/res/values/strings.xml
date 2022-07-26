@@ -13,10 +13,12 @@
     <string name="TechnologyName">Lithium Ion</string>
     <string name="CycleCountValue">20</string>
     <string name="NominalValue">Nominal Vol</string>
-    <string name="Availability">Availability</string>
+    <string name="ChargingSource">Source</string>
     <string name="Condition">Condition</string>
     <string name="NominalVolValue">3.8Vdc</string>
     <string name="AvailabilityValue">Present</string>
     <string name="ConditionValue">Good</string>
+    <string name="TimeLeftValue">Battery Percentage</string>
+    <string name="ContentDescription">Image of Battery Status</string>
 
 </resources>

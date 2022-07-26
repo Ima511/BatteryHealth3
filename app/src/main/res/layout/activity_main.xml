@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:contentDescription="@string/ContentDescription"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -50,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/relColor"
+        android:contentDescription="conte"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,11 +74,16 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:contentDescription="@string/ContentDescription"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
-            tools:src="@drawable/batteryone" />
+            android:src="@drawable/batteryone"
+
+
+            />
 
 
         <TextView
@@ -98,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_toRightOf="@+id/imageView"
+
 
             android:text="@string/TimeLeft"
             android:textColor="@color/white"
@@ -124,11 +131,11 @@
             app:layout_constraintTop_toTopOf="@+id/view6" />
 
         <TextView
-            android:id="@+id/tv_Availability"
+            android:id="@+id/tv_chargingSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@string/Availability"
+            android:text="@string/ChargingSource"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_NominalValue"
@@ -230,11 +237,11 @@
             android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_NominalVolValue"
             app:layout_constraintEnd_toStartOf="@+id/tv_Condition"
-            app:layout_constraintStart_toEndOf="@+id/tv_Availability"
+            app:layout_constraintStart_toEndOf="@+id/tv_chargingSource"
             app:layout_constraintTop_toTopOf="@+id/view6" />
 
         <TextView
-            android:id="@+id/tv_AvailabilityValue"
+            android:id="@+id/tv_ChargingSourceValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -242,8 +249,8 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_NominalVolValue"
-            app:layout_constraintEnd_toEndOf="@+id/tv_Availability"
-            app:layout_constraintStart_toStartOf="@+id/tv_Availability"
+            app:layout_constraintEnd_toEndOf="@+id/tv_chargingSource"
+            app:layout_constraintStart_toStartOf="@+id/tv_chargingSource"
             app:layout_constraintTop_toTopOf="@+id/tv_NominalVolValue" />
 
         <TextView
@@ -446,8 +453,8 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/BatteryFictionColor"
+            android:orientation="vertical"
             app:itemIconSize="24dp"
             app:itemTextColor="@color/relColor"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -462,7 +469,8 @@
             android:id="@+id/tv_TimeLeftValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+
+            android:text="@string/TimeLeftValue"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
