@@ -2,8 +2,8 @@
 # BatteryHealth
 
 
-As the  name of the Project BatteryHealth. This project is about the health and state of Battery of your android device.
-Basically this project track the condition and the charging status of your battery. For example 
+As the  name of the Project BatteryHealth. This project is about the health and state of Battery of android device.
+Basically this project track the condition and the charging status of battery. For example 
 Source of charging, Nominal voltage of battery, Condition of Battery (good, bad, poor, fault), Temperatur of battery, 
 Technology used in Battery (Li - ion), etc., It also tell us about the Battery status
 like Charging, Not Charging, Discharging , Unknown etc., 
