@@ -46,6 +46,7 @@ public class MyReceiver extends BroadcastReceiver {
         tv_tempValue = (TextView) ((Activity) context).findViewById(R.id.tv_tempValue);
         tv_Discharging = (TextView) ((Activity) context).findViewById(R.id.tv_Discharging);
         tv_ChargingSourceValue = (TextView) ((Activity) context).findViewById(R.id.tv_ChargingSourceValue);
+        tv_cycleCountValue = (TextView) ((Activity)context).findViewById(R.id.tv_cycleCountValue);
         imageView = (ImageView) ((Activity) context).findViewById(R.id.imageView);
         gif = (GifImageView) ((Activity) context).findViewById(R.id.gif);
 
@@ -88,6 +89,11 @@ public class MyReceiver extends BroadcastReceiver {
             // Battery Temperature
             float tempFloat = (float) intent.getIntExtra("temperature", -1) / 10;
             tv_tempValue.setText(tempFloat + "\u2103");
+
+            // Cycle Count *Current* in Battery
+            int currentValue = (int) intent.getIntExtra("current",-1);
+            tv_cycleCountValue.setText(currentValue + "mA");
+
 
             // Charging Status Function
             setChargingStatus(intent);
@@ -186,18 +192,18 @@ public class MyReceiver extends BroadcastReceiver {
         if (charge == 0) {
             imageView.setImageResource( R.drawable.batteryzero);
 
-        } else if (charge >0  && charge <20) {
+        } else if (charge >0  && charge <=20) {
             imageView.setImageResource( R.drawable.batteryone);
 
-        } else if (charge > 20 && charge < 40) {
+        } else if (charge > 20 && charge <= 40) {
             imageView.setImageResource( R.drawable.batterytwo);
 
-        } else if (charge > 40 && charge < 60) {
+        } else if (charge > 40 && charge <= 60) {
             imageView.setImageResource( R.drawable.batterythree);
 
-        }  else if (charge > 60 && charge < 80) {
+        }  else if (charge > 60 && charge <= 80) {
             imageView.setImageResource(R.drawable.batteryfour);
-        } else if (charge > 80 && charge < 100){
+        } else if (charge > 80 && charge <= 100){
 
             imageView.setImageResource(R.drawable.batteryfive);
         }else{

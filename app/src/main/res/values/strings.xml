@@ -9,7 +9,7 @@
     <string name="BatteryInformation">Battery Information</string>
     <string name="Temperature">Temperature</string>
     <string name="Technology">Technology</string>
-    <string name="CycleCount">Cycle Count</string>
+    <string name="CycleCount">Current</string>
     <string name="TechnologyName">Lithium Ion</string>
     <string name="CycleCountValue">20</string>
     <string name="NominalValue">Nominal Vol</string>
