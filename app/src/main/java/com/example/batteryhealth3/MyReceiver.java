@@ -1,22 +1,34 @@
 package com.example.batteryhealth3;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import pl.droidsonroids.gif.GifImageView;
 
 
 public class MyReceiver extends BroadcastReceiver {
 
+    // Declaration of Required view on Screen
     TextView
             tv_TimeLeftValue,
             tv_AvailabilityValue,
@@ -30,6 +42,14 @@ public class MyReceiver extends BroadcastReceiver {
 
     ImageView imageView;
     GifImageView gif;
+
+    private String CHANNEL_ID = "Battery Channel";
+//     Notification Codes
+
+    //    private static final String CHANNEL_ID = "Battery Channel";
+//    private static final int NOTIFICATION_ID = 2;
+    private static final int PI_REQ_CODE = 100;
+
 
     public MyReceiver() {
     }
@@ -46,7 +66,7 @@ public class MyReceiver extends BroadcastReceiver {
         tv_tempValue = (TextView) ((Activity) context).findViewById(R.id.tv_tempValue);
         tv_Discharging = (TextView) ((Activity) context).findViewById(R.id.tv_Discharging);
         tv_ChargingSourceValue = (TextView) ((Activity) context).findViewById(R.id.tv_ChargingSourceValue);
-        tv_cycleCountValue = (TextView) ((Activity)context).findViewById(R.id.tv_cycleCountValue);
+        tv_cycleCountValue = (TextView) ((Activity) context).findViewById(R.id.tv_cycleCountValue);
         imageView = (ImageView) ((Activity) context).findViewById(R.id.imageView);
         gif = (GifImageView) ((Activity) context).findViewById(R.id.gif);
 
@@ -91,12 +111,12 @@ public class MyReceiver extends BroadcastReceiver {
             tv_tempValue.setText(tempFloat + "\u2103");
 
             // Cycle Count *Current* in Battery
-            int currentValue = (int) intent.getIntExtra("current",-1);
+            int currentValue = (int) intent.getIntExtra("current", -1);
             tv_cycleCountValue.setText(currentValue + "mA");
 
 
             // Charging Status Function
-            setChargingStatus(intent);
+            setChargingStatus(context,intent);
 
             // Charging Source Function
             getChargingSource(intent);
@@ -134,7 +154,7 @@ public class MyReceiver extends BroadcastReceiver {
         }
     }
 
-    private void setChargingStatus(Intent intent) {
+    private void setChargingStatus(Context context ,Intent intent) {
         int statusTemp = intent.getIntExtra("status", -1);
 
         switch ((statusTemp)) {
@@ -142,12 +162,15 @@ public class MyReceiver extends BroadcastReceiver {
                 tv_Discharging.setText("Unknown");
                 imageView.setVisibility(View.GONE);
                 gif.setVisibility(View.GONE);
+                abc(context, "UNKNOWN", "STATUS UNKNOWN");
                 break;
 
             case BatteryManager.BATTERY_STATUS_CHARGING:
                 tv_Discharging.setText("Charging");
                 imageView.setVisibility(View.GONE);
                 gif.setVisibility(View.VISIBLE);
+                // getNotificatoin();
+                abc(context, "Power", "Charging");
                 break;
 
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
@@ -155,6 +178,7 @@ public class MyReceiver extends BroadcastReceiver {
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
                 getBatteryImage(intent);
+                abc(context, "Power", "Discharging");
                 break;
 
             case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
@@ -162,6 +186,7 @@ public class MyReceiver extends BroadcastReceiver {
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
                 getBatteryImage(intent);
+                abc(context, "Power", "Not Charging");
                 break;
 
 
@@ -182,6 +207,84 @@ public class MyReceiver extends BroadcastReceiver {
 
         }
     }
+
+
+//    private void getNotification(Intent intent) {
+//        int statusTemp = intent.getIntExtra("status", -1);
+//
+//        switch ((statusTemp)) {
+//            case BatteryManager.BATTERY_STATUS_UNKNOWN:
+//
+//                break;
+//
+//            case BatteryManager.BATTERY_STATUS_CHARGING:
+//
+//
+//                break;
+//
+//            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+//
+//                break;
+//
+//            case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
+//
+//                break;
+//
+//
+//            case BatteryManager.BATTERY_STATUS_FULL:
+//
+//                break;
+//
+//
+//            default:
+//                tv_Discharging.setText("Null");
+//
+//                break;
+//
+//        }
+//    }
+
+    private void abc(Context context, String body, String title) {
+        Intent i = new Intent(context, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pi = PendingIntent.getActivity(context, PI_REQ_CODE, i, 0);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("1", "My Notification", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription(body);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "1");
+
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.app_icon)
+                .setTicker("Hear2")
+                .setPriority(Notification.PRIORITY_MAX)
+                .setOngoing(true)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setColor(context.getResources().getColor(R.color.colorRed))
+                .setContentInfo("Info")
+                .setContentIntent(pi);
+
+        notificationManager.notify(0,notificationBuilder.build());
+    }
+
+
+
+
+
+
 
 
     private void getBatteryImage(Intent intent) {
@@ -209,44 +312,6 @@ public class MyReceiver extends BroadcastReceiver {
         }else{
 
         }
-
-//        int charge =(int) intent.getIntExtra("level", 0);
-//
-//        switch (charge){
-//            case 1 :
-//
-//                charge < 20
-//
-//
-//                break;
-//
-//            case 2:
-//
-//              break;
-//
-//            case 3:
-//
-//                break;
-//
-//                case 4:
-//
-//                break;
-//
-//                 case 5:
-//
-//                break;
-//
-//                case 6:
-//
-//                break;
-//
-//            default:
-//                imageView.setImageResource( R.drawable.batteryfive);
-//                break;
-//
-//        }
-
-
 
 
 
@@ -287,6 +352,7 @@ public class MyReceiver extends BroadcastReceiver {
                 break;
         }
     }
+
 
 
 }
