@@ -53,9 +53,8 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
 
-
-        app:layout_constraintVertical_bias="0.642"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-55dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -66,31 +65,29 @@
             app:layout_constraintBottom_toTopOf="@id/appBarLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <View
                 android:id="@+id/view1"
                 android:layout_width="wrap_content"
-
                 android:layout_height="5dp"
                 android:background="@color/BatteryFictionColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guideline2" />
 
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="0dp"
                 android:contentDescription="@string/ContentDescription"
                 app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/view1"
 
                 />
             <!--   android:src="@drawable/batteryone"   -->
@@ -100,13 +97,16 @@
                 android:id="@+id/gif"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="0dp"
                 android:contentDescription="@string/ContentDescription"
                 android:src="@drawable/battery_charging"
                 app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/guideline6" />
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+            <!--    app:layout_constraintTop_toBottomOf="@+id/imageView"  -->
 
 
             <TextView
@@ -117,41 +117,30 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="italic|bold"
-                app:layout_constraintBottom_toTopOf="@+id/view2"
-                app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-
-                />
-            <!--    app:layout_constraintTop_toBottomOf="@+id/imageView"  -->
-
+                app:layout_constraintBottom_toTopOf="@+id/btnOptimizeBattery"
+                app:layout_constraintEnd_toEndOf="@+id/tv_TimeLeftValue"
+                app:layout_constraintStart_toStartOf="@+id/tv_TimeLeftValue" />
 
             <TextView
                 android:id="@+id/tv_TimeLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-
-
+                android:layout_marginBottom="5dp"
                 android:text="@string/TimeLeft"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/view2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/view1"
-                app:layout_constraintVertical_bias="0.0" />
-
+                app:layout_constraintBottom_toTopOf="@+id/tv_TimeLeftValue"
+                app:layout_constraintEnd_toEndOf="@+id/tv_TimeLeftValue"
+                app:layout_constraintStart_toStartOf="@+id/tv_TimeLeftValue" />
 
             <View
 
                 android:id="@+id/view4"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-
                 android:background="@color/ToolBarBackgroundColor"
                 app:layout_constraintBottom_toBottomOf="parent"
-
                 app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -202,6 +191,7 @@
                 android:id="@+id/btnOptimizeBattery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="@color/ToolBarBackgroundColor"
                 android:text="@string/OptimizeBattery"
@@ -211,24 +201,9 @@
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toTopOf="@+id/tv_Discharging"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_below="@+id/tv_BatteryHealth"
-                android:layout_marginBottom="5dp"
-                android:background="@color/ToolBarBackgroundColor"
-                app:layout_constraintBottom_toTopOf="@+id/btnOptimizeBattery"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+                tools:ignore="NotSibling" />
 
             <TextView
                 android:id="@+id/tv_Condition"
@@ -355,10 +330,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/TechnologyName"
                 android:textColor="@color/white"
-                android:textSize="17sp"
 
+                android:textSize="17sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline5"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -399,9 +375,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:layout_below="@+id/tv_BatteryInfo"
-
-
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/ToolBarBackgroundColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -455,41 +429,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.1" />
+                app:layout_constraintGuide_percent="0.03" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.61" />
+                app:layout_constraintGuide_percent="0.41" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.08" />
+                app:layout_constraintGuide_percent="0.06" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.34" />
+                app:layout_constraintGuide_percent="0.4" />
 
 
             <TextView
                 android:id="@+id/tv_TimeLeftValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="@string/TimeLeftValue"
                 android:textColor="@color/white"
+                android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/tv_TimeLeft" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline9"
