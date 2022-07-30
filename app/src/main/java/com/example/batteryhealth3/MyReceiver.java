@@ -1,5 +1,9 @@
 package com.example.batteryhealth3;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.os.BatteryManager.BATTERY_STATUS_CHARGING;
+import static android.os.BatteryManager.BATTERY_STATUS_UNKNOWN;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -46,8 +50,7 @@ public class MyReceiver extends BroadcastReceiver {
     private String CHANNEL_ID = "Battery Channel";
 //     Notification Codes
 
-    //    private static final String CHANNEL_ID = "Battery Channel";
-//    private static final int NOTIFICATION_ID = 2;
+    private static final int NOTIFICATION_ID = 2;
     private static final int PI_REQ_CODE = 100;
 
 
@@ -121,10 +124,8 @@ public class MyReceiver extends BroadcastReceiver {
             // Charging Source Function
             getChargingSource(intent);
 
-//            // Time Left calculation
-//
-//            int timeLeft = (int) intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1)/60000 ;
-//            tv_TimeLeftValue.setText(timeLeft + " minute");
+           // Notification Fuction
+            setNotification(context,intent);
 
         }
 
@@ -157,36 +158,41 @@ public class MyReceiver extends BroadcastReceiver {
     private void setChargingStatus(Context context ,Intent intent) {
         int statusTemp = intent.getIntExtra("status", -1);
 
+
         switch ((statusTemp)) {
-            case BatteryManager.BATTERY_STATUS_UNKNOWN:
+            case BATTERY_STATUS_UNKNOWN:
                 tv_Discharging.setText("Unknown");
                 imageView.setVisibility(View.GONE);
                 gif.setVisibility(View.GONE);
-                abc(context, "UNKNOWN", "STATUS UNKNOWN");
+              //  abc(context, "UNKNOWN", "STATUS UNKNOWN");
+                //getNotification(context, "Charging Status unknown", "BatteryHealth");
                 break;
 
             case BatteryManager.BATTERY_STATUS_CHARGING:
                 tv_Discharging.setText("Charging");
                 imageView.setVisibility(View.GONE);
                 gif.setVisibility(View.VISIBLE);
-                // getNotificatoin();
-                abc(context, "Power", "Charging");
+
+               // abc(context, "Power", "Charging");
+               // getNotification(context, "Battery is Charging ", "Power is Plugged in");
                 break;
 
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
                 tv_Discharging.setText("Discharging");
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
-                getBatteryImage(intent);
-                abc(context, "Power", "Discharging");
+                getBatteryImage(context, intent);
+                //abc(context, "Power", "Discharging");
+               // getNotification(context, "Battery is Discharging", "Battery Health");
                 break;
 
             case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
                 tv_Discharging.setText("Not Charging");
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
-                getBatteryImage(intent);
-                abc(context, "Power", "Not Charging");
+                getBatteryImage(context, intent);
+               // abc(context, "Power", "Not Charging");
+               // getNotification(context, "Battery is not charging", "Battery Health");
                 break;
 
 
@@ -194,15 +200,15 @@ public class MyReceiver extends BroadcastReceiver {
                 tv_Discharging.setText("Battery Full");
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
-                getBatteryImage(intent);
+                getBatteryImage(context, intent);
+                //getNotification(context, "Battery is Full", "Battery Health");
                 break;
-
 
             default:
                 tv_Discharging.setText("Null");
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
-                getBatteryImage(intent);
+                getBatteryImage(context, intent);
                 break;
 
         }
@@ -244,50 +250,99 @@ public class MyReceiver extends BroadcastReceiver {
 //        }
 //    }
 
-    private void abc(Context context, String body, String title) {
-        Intent i = new Intent(context, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pi = PendingIntent.getActivity(context, PI_REQ_CODE, i, 0);
+//    private void abc(Context context, String body, String title) {
+//        Intent i = new Intent(context, MainActivity.class);
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pi = PendingIntent.getActivity(context, PI_REQ_CODE, i, 0);
+//
+//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel notificationChannel = new NotificationChannel("1", "My Notification", NotificationManager.IMPORTANCE_HIGH);
+//            notificationChannel.setDescription(body);
+//            notificationChannel.enableLights(true);
+//            notificationChannel.setLightColor(Color.RED);
+//            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+//            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+//            notificationChannel.enableVibration(true);
+//            notificationManager.createNotificationChannel(notificationChannel);
+//        }
+//
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "1");
+//
+//        notificationBuilder.setAutoCancel(true)
+//                .setDefaults(Notification.DEFAULT_ALL)
+//                .setWhen(System.currentTimeMillis())
+//                .setSmallIcon(R.drawable.app_icon)
+//                .setTicker("Hear2")
+//                .setPriority(Notification.PRIORITY_MAX)
+//                .setOngoing(true)
+//                .setContentTitle(title)
+//                .setContentText(body)
+//                .setColor(context.getResources().getColor(R.color.colorRed))
+//                .setContentInfo("Info")
+//                .setContentIntent(pi);
+//
+//        notificationManager.notify(0,notificationBuilder.build());
+//    }
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    public void getNotification(Context context ,String body, String title ) {
+        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.app_icon, null);
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+        Bitmap largeIcon = bitmapDrawable.getBitmap();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("1", "My Notification", NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription(body);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
-            notificationChannel.enableVibration(true);
-            notificationManager.createNotificationChannel(notificationChannel);
+        NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        Notification notification_type1;
+
+        Intent inotify = new Intent(context,MainActivity.class);
+        inotify.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
+        PendingIntent pi = PendingIntent.getBroadcast(context,
+                PI_REQ_CODE,
+                inotify,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+
+        // Big Picture Style
+
+
+        Notification.BigPictureStyle bigPictureStyle = new Notification.BigPictureStyle()
+                .bigPicture(((BitmapDrawable) (ResourcesCompat.getDrawable(context.getResources(), R.drawable.app_icon, null))).getBitmap())
+                .bigLargeIcon(largeIcon)
+                .setBigContentTitle(title)
+                .setSummaryText(body);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            notification_type1 = new Notification.Builder(context)
+                    .setLargeIcon(largeIcon)
+                    .setSmallIcon(R.drawable.app_icon)
+                    .setContentText(title)
+                    .setSubText(body)
+                    .setContentIntent(pi)
+                    .setStyle(bigPictureStyle)
+                    .setChannelId(CHANNEL_ID)
+                    .build();
+            nm.createNotificationChannel(new NotificationChannel(CHANNEL_ID, "New Channel", NotificationManager.IMPORTANCE_HIGH));
+
+        } else {
+
+            notification_type1 = new Notification.Builder(context)
+                    .setLargeIcon(largeIcon)
+                    .setSmallIcon(R.drawable.app_icon)
+                    .setContentText(title)
+                    .setSubText(body)
+                    .setStyle(bigPictureStyle)
+                    .setContentIntent(pi)
+                    .build();
         }
+        nm.notify(NOTIFICATION_ID, notification_type1);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "1");
 
-        notificationBuilder.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.app_icon)
-                .setTicker("Hear2")
-                .setPriority(Notification.PRIORITY_MAX)
-                .setOngoing(true)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setColor(context.getResources().getColor(R.color.colorRed))
-                .setContentInfo("Info")
-                .setContentIntent(pi);
-
-        notificationManager.notify(0,notificationBuilder.build());
     }
 
-
-
-
-
-
-
-
-    private void getBatteryImage(Intent intent) {
+    private void getBatteryImage(Context context, Intent intent) {
 
         int charge = (int) intent.getIntExtra("level", 0);
 
@@ -297,6 +352,8 @@ public class MyReceiver extends BroadcastReceiver {
 
         } else if (charge >0  && charge <=20) {
             imageView.setImageResource( R.drawable.batteryone);
+        //    getNotification(context, "Battery is Low", "Plugged your device");
+
 
         } else if (charge > 20 && charge <= 40) {
             imageView.setImageResource( R.drawable.batterytwo);
@@ -306,16 +363,17 @@ public class MyReceiver extends BroadcastReceiver {
 
         }  else if (charge > 60 && charge <= 80) {
             imageView.setImageResource(R.drawable.batteryfour);
-        } else if (charge > 80 && charge <= 100){
+        } else if (charge > 80 && charge < 100){
 
             imageView.setImageResource(R.drawable.batteryfive);
-        }else{
+        }else if(charge == 100){
+            imageView.setImageResource(R.drawable.batteryfive);
+           // getNotification(context, "Battery is Full", "Remove your charger");
 
         }
+        else{
 
-
-
-
+        }
     }
 
 
@@ -353,6 +411,53 @@ public class MyReceiver extends BroadcastReceiver {
         }
     }
 
+    private void setNotification(Context context, Intent intent) {
 
+        // Conditional Notification based on the Battery Status
+        int statusTemp = intent.getIntExtra("status", -1);
+        switch ((statusTemp)) {
+            case BATTERY_STATUS_UNKNOWN:
+                getNotification(context, "Take Action", "Battery Status Unknown");
+
+                break;
+
+            case BatteryManager.BATTERY_STATUS_CHARGING:
+                getNotification(context, "Charger is Plugged in ", "Battery is Charging");
+                break;
+
+            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                getNotification(context, "Charger is not Plugged", "Battery is Discharging");
+                break;
+
+            case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
+                getNotification(context, "Charger is not Plugged", "Battery is Nor Charging");
+                break;
+
+
+            case BatteryManager.BATTERY_STATUS_FULL:
+                getNotification(context, "Do not Plugged in charger","Battery is Full");
+                break;
+
+        }
+
+        // Conditional Notification based on the Low Battery or Full Battery
+
+        int charge = (int) intent.getIntExtra("level", 0);
+
+        if (charge <= 20){
+            getNotification(context,"Please Plugged in the Charger", "Battery is Low");
+        }else if(charge == 100){
+            getNotification(context,"Remove the charger", "Battery is Full");
+        }
+
+        // Notification for Overheating of Battery
+
+        float tempFloat = (float) intent.getIntExtra("temperature", -1) / 10;
+        if (tempFloat > 50){
+            getNotification(context, "Take Action", "Battery is Overheated");
+        }
+
+
+    }
 
 }
