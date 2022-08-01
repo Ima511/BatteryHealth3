@@ -13,10 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BatteryHealth3"
         tools:targetApi="31">
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <receiver
             android:name=".MyReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"

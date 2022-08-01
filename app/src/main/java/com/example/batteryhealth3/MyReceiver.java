@@ -1,7 +1,7 @@
 package com.example.batteryhealth3;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
-import static android.os.BatteryManager.BATTERY_STATUS_CHARGING;
+import static android.os.BatteryManager.ACTION_CHARGING;
 import static android.os.BatteryManager.BATTERY_STATUS_UNKNOWN;
 
 import android.app.Activity;
@@ -20,12 +20,16 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.UnusedAppRestrictionsConstants;
 import androidx.core.content.res.ResourcesCompat;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -103,6 +107,7 @@ public class MyReceiver extends BroadcastReceiver {
 //             Battery Voltage
             float voltTemp = (float) (intent.getIntExtra("voltage", 0) * 0.001);
             tv_NominalVolValue.setText(voltTemp + "V");
+
             // Battery Condition Function
             setCondition(intent);
 
@@ -119,15 +124,18 @@ public class MyReceiver extends BroadcastReceiver {
 
 
             // Charging Status Function
-            setChargingStatus(context,intent);
+            setChargingStatus(context, intent);
 
             // Charging Source Function
             getChargingSource(intent);
 
-           // Notification Fuction
-            setNotification(context,intent);
+            // Notification Fuction
+            setNotification(context, intent);
 
         }
+
+
+
 
 
     }
@@ -155,7 +163,7 @@ public class MyReceiver extends BroadcastReceiver {
         }
     }
 
-    private void setChargingStatus(Context context ,Intent intent) {
+    private void setChargingStatus(Context context, Intent intent) {
         int statusTemp = intent.getIntExtra("status", -1);
 
 
@@ -164,7 +172,7 @@ public class MyReceiver extends BroadcastReceiver {
                 tv_Discharging.setText("Unknown");
                 imageView.setVisibility(View.GONE);
                 gif.setVisibility(View.GONE);
-              //  abc(context, "UNKNOWN", "STATUS UNKNOWN");
+                //  abc(context, "UNKNOWN", "STATUS UNKNOWN");
                 //getNotification(context, "Charging Status unknown", "BatteryHealth");
                 break;
 
@@ -173,8 +181,8 @@ public class MyReceiver extends BroadcastReceiver {
                 imageView.setVisibility(View.GONE);
                 gif.setVisibility(View.VISIBLE);
 
-               // abc(context, "Power", "Charging");
-               // getNotification(context, "Battery is Charging ", "Power is Plugged in");
+                // abc(context, "Power", "Charging");
+                // getNotification(context, "Battery is Charging ", "Power is Plugged in");
                 break;
 
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
@@ -183,7 +191,7 @@ public class MyReceiver extends BroadcastReceiver {
                 gif.setVisibility(View.GONE);
                 getBatteryImage(context, intent);
                 //abc(context, "Power", "Discharging");
-               // getNotification(context, "Battery is Discharging", "Battery Health");
+                // getNotification(context, "Battery is Discharging", "Battery Health");
                 break;
 
             case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
@@ -191,8 +199,8 @@ public class MyReceiver extends BroadcastReceiver {
                 imageView.setVisibility(View.VISIBLE);
                 gif.setVisibility(View.GONE);
                 getBatteryImage(context, intent);
-               // abc(context, "Power", "Not Charging");
-               // getNotification(context, "Battery is not charging", "Battery Health");
+                // abc(context, "Power", "Not Charging");
+                // getNotification(context, "Battery is not charging", "Battery Health");
                 break;
 
 
@@ -286,17 +294,20 @@ public class MyReceiver extends BroadcastReceiver {
 //        notificationManager.notify(0,notificationBuilder.build());
 //    }
 
-    public void getNotification(Context context ,String body, String title ) {
+    public void getNotification(Context context, String body, String title) {
+
+        // Conversion of icon from drawable to Bitmap
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.app_icon, null);
         BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
         Bitmap largeIcon = bitmapDrawable.getBitmap();
 
+
+        // Declaration of Notification Manager and initializing object
         NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         Notification notification_type1;
 
-        Intent inotify = new Intent(context,MainActivity.class);
+        Intent inotify = new Intent(context, MainActivity.class);
         inotify.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
 
         PendingIntent pi = PendingIntent.getBroadcast(context,
                 PI_REQ_CODE,
@@ -304,23 +315,38 @@ public class MyReceiver extends BroadcastReceiver {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 
+        // Custom Notification creation
+//        RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
+//        RemoteViews notificationLayoutExpanded = new RemoteViews(context.getPackageName(), R.layout.notification_large);
+
+
         // Big Picture Style
-
-
         Notification.BigPictureStyle bigPictureStyle = new Notification.BigPictureStyle()
-                .bigPicture(((BitmapDrawable) (ResourcesCompat.getDrawable(context.getResources(), R.drawable.app_icon, null))).getBitmap())
+               .bigPicture(((BitmapDrawable) (ResourcesCompat.getDrawable(context.getResources(), R.drawable.app_icon, null))).getBitmap())
                 .bigLargeIcon(largeIcon)
                 .setBigContentTitle(title)
                 .setSummaryText(body);
 
+//        // Inbox Style
+//
+//        Notification.InboxStyle inboxStyle = new Notification.InboxStyle()
+//                .addLine(title)
+//                .addLine(body);
+
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             notification_type1 = new Notification.Builder(context)
+//                    .setStyle(new Notification.DecoratedCustomViewStyle())
+//                    .setCustomContentView(notificationLayout)
+//                    .setCustomBigContentView(notificationLayoutExpanded)
                     .setLargeIcon(largeIcon)
                     .setSmallIcon(R.drawable.app_icon)
                     .setContentText(title)
                     .setSubText(body)
                     .setContentIntent(pi)
+                    .setVibrate(new long[]{0, 1000, 500, 1000})
+                    // .setStyle(inboxStyle)
                     .setStyle(bigPictureStyle)
                     .setChannelId(CHANNEL_ID)
                     .build();
@@ -329,10 +355,15 @@ public class MyReceiver extends BroadcastReceiver {
         } else {
 
             notification_type1 = new Notification.Builder(context)
+//                    .setStyle(new Notification.DecoratedCustomViewStyle())
+//                    .setCustomContentView(notificationLayout)
+//                    .setCustomBigContentView(notificationLayoutExpanded)
                     .setLargeIcon(largeIcon)
                     .setSmallIcon(R.drawable.app_icon)
                     .setContentText(title)
                     .setSubText(body)
+                    .setVibrate(new long[]{0, 1000, 500, 1000})
+                    //.setStyle(inboxStyle)
                     .setStyle(bigPictureStyle)
                     .setContentIntent(pi)
                     .build();
@@ -348,30 +379,29 @@ public class MyReceiver extends BroadcastReceiver {
 
 
         if (charge == 0) {
-            imageView.setImageResource( R.drawable.batteryzero);
+            imageView.setImageResource(R.drawable.batteryzero);
 
-        } else if (charge >0  && charge <=20) {
-            imageView.setImageResource( R.drawable.batteryone);
-        //    getNotification(context, "Battery is Low", "Plugged your device");
+        } else if (charge > 0 && charge <= 20) {
+            imageView.setImageResource(R.drawable.batteryone);
+            //    getNotification(context, "Battery is Low", "Plugged your device");
 
 
         } else if (charge > 20 && charge <= 40) {
-            imageView.setImageResource( R.drawable.batterytwo);
+            imageView.setImageResource(R.drawable.batterytwo);
 
         } else if (charge > 40 && charge <= 60) {
-            imageView.setImageResource( R.drawable.batterythree);
+            imageView.setImageResource(R.drawable.batterythree);
 
-        }  else if (charge > 60 && charge <= 80) {
+        } else if (charge > 60 && charge <= 80) {
             imageView.setImageResource(R.drawable.batteryfour);
-        } else if (charge > 80 && charge < 100){
+        } else if (charge > 80 && charge < 100) {
 
             imageView.setImageResource(R.drawable.batteryfive);
-        }else if(charge == 100){
+        } else if (charge == 100) {
             imageView.setImageResource(R.drawable.batteryfive);
-           // getNotification(context, "Battery is Full", "Remove your charger");
+            // getNotification(context, "Battery is Full", "Remove your charger");
 
-        }
-        else{
+        } else {
 
         }
     }
@@ -414,6 +444,8 @@ public class MyReceiver extends BroadcastReceiver {
     private void setNotification(Context context, Intent intent) {
 
         // Conditional Notification based on the Battery Status
+        int charge = (int) intent.getIntExtra("level", 0);
+
         int statusTemp = intent.getIntExtra("status", -1);
         switch ((statusTemp)) {
             case BATTERY_STATUS_UNKNOWN:
@@ -423,41 +455,89 @@ public class MyReceiver extends BroadcastReceiver {
 
             case BatteryManager.BATTERY_STATUS_CHARGING:
                 getNotification(context, "Charger is Plugged in ", "Battery is Charging");
+                if (charge <= 20) {
+                    getNotification(context, "Charger is Plugged in ", "Battery is Charging");
+                } else if (charge == 100) {
+                    getNotification(context, "Remove the charger ", "Battery Full");
+                }
                 break;
 
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
                 getNotification(context, "Charger is not Plugged", "Battery is Discharging");
+                if (charge <= 20) {
+                    getNotification(context, "plug in the charger", "Battery is low");
+                }
                 break;
 
             case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
                 getNotification(context, "Charger is not Plugged", "Battery is Nor Charging");
+                if (charge <= 20) {
+                    getNotification(context, "plug in the charger", "Battery is low");
+                } else if (charge == 100) {
+                    getNotification(context, "Do not Plugged in  charger ", "Battery Full");
+                }
                 break;
 
 
             case BatteryManager.BATTERY_STATUS_FULL:
-                getNotification(context, "Do not Plugged in charger","Battery is Full");
+                getNotification(context, "Do not Plugged in charger", "Battery is Full");
+
                 break;
 
+
+
         }
 
-        // Conditional Notification based on the Low Battery or Full Battery
-
-        int charge = (int) intent.getIntExtra("level", 0);
-
-        if (charge <= 20){
-            getNotification(context,"Please Plugged in the Charger", "Battery is Low");
-        }else if(charge == 100){
-            getNotification(context,"Remove the charger", "Battery is Full");
-        }
-
-        // Notification for Overheating of Battery
+// Notification for temperature factor of Battery
 
         float tempFloat = (float) intent.getIntExtra("temperature", -1) / 10;
-        if (tempFloat > 50){
-            getNotification(context, "Take Action", "Battery is Overheated");
+        if (tempFloat > 50) {
+            getNotification(context, "Take action", "Battery is overheated");
         }
 
+// Notification for Different Condition of Battery Health
+
+        int val = intent.getIntExtra("health", 0);
+
+        switch (val) {
+
+//            case BatteryManager.BATTERY_HEALTH_UNKNOWN:
+//                //  tv_ConditionValue.setText("UNKNOWN");
+//                getNotification(context, "Take action", "Battery health is unknown");
+//                break;
+
+//            case BatteryManager.BATTERY_HEALTH_GOOD:
+//                //    tv_ConditionValue.setText("GOOD");
+//                getNotification(context, "Good", "Battery health is in good condition");
+//                break;
+
+            case BatteryManager.BATTERY_HEALTH_OVERHEAT:
+                //  tv_ConditionValue.setText("OVERHEAT");
+                getNotification(context, "Close the apps running in background", "Device is overheating");
+                break;
+
+            case BatteryManager.BATTERY_HEALTH_DEAD:
+                //  tv_ConditionValue.setText("DEAD");
+                getNotification(context, "Poor battery condition ", "Battery is dead");
+                break;
+
+            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
+                //   tv_ConditionValue.setText("OVER VOLTAGE");
+                getNotification(context, "Use Proper Adapter to charge the Device", "Device is over voltage ");
+                break;
+
+            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
+                //   tv_ConditionValue.setText("FAILED");
+                getNotification(context, "Battery Error", "Unspecified failure of battery");
+                break;
+
+            case BatteryManager.BATTERY_HEALTH_COLD:
+                //   tv_ConditionValue.setText("COLD");
+                getNotification(context, "Battery is cooling ", "Battery health is cold");
+                break;
+
+
+        }
 
     }
-
 }
