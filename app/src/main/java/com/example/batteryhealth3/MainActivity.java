@@ -2,19 +2,11 @@ package com.example.batteryhealth3;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.res.ResourcesCompat;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +25,17 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     MyReceiver myReceiver = new MyReceiver();
     IntentFilter intentFilter;
+
+
+    private String CHANNEL_ID = "Battery Channel";
+//     Notification Codes
+
+    private static final int NOTIFICATION_ID = 2;
+    private static final int PI_REQ_CODE = 100;
+    SharedPreferences sharedpreferences;
+    String autoStart;
+
+
 
     // Notification Codes
 
@@ -65,7 +68,15 @@ public class MainActivity extends AppCompatActivity {
         intentfilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         this.registerReceiver(myReceiver, intentfilter);
 
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        autoStart = sharedpreferences.getString("autoStart", "");
+        if (autoStart.equals("")) {
+            AutoStartHelper.getInstance().getAutoStartPermission(this);
+        }
+
     }
+
+
 
 
 //    @Override
@@ -160,7 +171,10 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
-
-
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        this.unregisterReceiver(myReceiver);
+//           }
 }
 
