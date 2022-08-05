@@ -441,7 +441,7 @@ public class MyReceiver extends BroadcastReceiver {
         }
     }
 
-    private void setNotification(Context context, Intent intent) {
+    public void setNotification(Context context, Intent intent) {
 
         // Conditional Notification based on the Battery Status
         int charge = (int) intent.getIntExtra("level", 0);

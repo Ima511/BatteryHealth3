@@ -21,5 +21,6 @@
     <string name="TimeLeftValue">Battery Percentage</string>
     <string name="ContentDescription">Image of Battery Status</string>
     <string name="notification_title">Message from Battery Health</string>
+    <string name="msg_token_fmt">messagefromtoken</string>
 
 </resources>
